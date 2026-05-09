@@ -1,7 +1,18 @@
-from rest_framework.routers import DefaultRouter
-from apps.categories.views.categorie import CategorieViewSet
+"""
+URL routes for the Categorie resource.
+"""
+from django.urls import path
 
-router = DefaultRouter()
-router.register(r'categories', CategorieViewSet, basename='categorie')
+from apps.categories.views import CategorieViewSet
 
-urlpatterns = router.urls
+categorie_list = CategorieViewSet.as_view(
+    {"get": "list", "post": "create"}
+)
+categorie_detail = CategorieViewSet.as_view(
+    {"get": "retrieve", "put": "update", "patch": "partial_update", "delete": "destroy"}
+)
+
+urlpatterns = [
+    path("categories/", categorie_list, name="categorie-list"),
+    path("categories/<int:pk>/", categorie_detail, name="categorie-detail"),
+]

@@ -1,74 +1,148 @@
-from rest_framework.viewsets import ModelViewSet
-from rest_framework import filters, status
-from rest_framework.response import Response
-from drf_spectacular.utils import extend_schema, extend_schema_view
-from apps.categories.models import Categorie
-from apps.categories.serializers.categorie import CategorieSerializer
-from rest_framework.pagination import PageNumberPagination
+"""
+ViewSet for Categorie CRUD operations.
+"""
+import logging
 
-class StandardResultsSetPagination(PageNumberPagination):
-    """
-    Custom pagination class for consistent pagination settings.
-    """
-    page_size = 10
-    page_size_query_param = 'page_size'
-    max_page_size = 100
+from drf_spectacular.utils import OpenApiResponse, extend_schema, extend_schema_view
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.viewsets import ViewSet
+
+from apps.categories.serializers import CategorieSerializer
+from apps.categories.services import CategorieService
+from apps.core.pagination import StandardPagination
+from apps.core.permissions import IsPharmacist, IsPharmacistOrReadOnly
+
+logger = logging.getLogger(__name__)
+
 
 @extend_schema_view(
     list=extend_schema(
-        summary="Retrieve a list of categories",
-        description="Returns a paginated list of all categories with optional filtering and search."
-    ),
-    retrieve=extend_schema(
-        summary="Retrieve a single category",
-        description="Returns details of a specific category by ID."
+        summary="Lister toutes les catégories",
+        tags=["Catégories"],
     ),
     create=extend_schema(
-        summary="Create a new category",
-        description="Creates a new category with the provided data."
+        summary="Créer une catégorie",
+        tags=["Catégories"],
+    ),
+    retrieve=extend_schema(
+        summary="Détail d'une catégorie",
+        tags=["Catégories"],
     ),
     update=extend_schema(
-        summary="Update an existing category",
-        description="Updates the details of an existing category by ID."
+        summary="Mettre à jour une catégorie (PUT)",
+        tags=["Catégories"],
     ),
     partial_update=extend_schema(
-        summary="Partially update a category",
-        description="Partially updates the details of an existing category by ID."
+        summary="Mettre à jour partiellement une catégorie (PATCH)",
+        tags=["Catégories"],
     ),
     destroy=extend_schema(
-        summary="Delete a category",
-        description="Deletes a specific category by ID."
+        summary="Supprimer une catégorie",
+        tags=["Catégories"],
+        responses={204: OpenApiResponse(description="Supprimé avec succès.")},
     ),
 )
-
-class CategorieViewSet(ModelViewSet):
+class CategorieViewSet(ViewSet):
     """
-    ViewSet for managing categories in the pharmacy management system.
+    ViewSet exposing CRUD operations for medication categories.
 
-    Provides CRUD operations, filtering, search, and pagination.
+    - Pharmacists: full access (CRUD).
+    - Clients: read-only (list, retrieve).
     """
-    queryset = Categorie.objects.all()
-    serializer_class = CategorieSerializer
-    pagination_class = StandardResultsSetPagination
-    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
-    search_fields = ['nom', 'description']
-    ordering_fields = ['created_at', 'nom']
-    ordering = ['-created_at']
 
-    def create(self, request, *args, **kwargs):
-        """
-        Handle the creation of a new category with proper status codes.
-        """
-        serializer = self.get_serializer(data=request.data)
+    permission_classes = [IsPharmacistOrReadOnly]
+    pagination_class = StandardPagination
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.service = CategorieService()
+
+    # GET /categories/
+    # ------------------------------------------------------------------
+    def list(self, request):
+        queryset = self.service.list_categories()
+
+        # Manual search
+        search = request.query_params.get("search")
+        if search:
+            queryset = queryset.filter(nom__icontains=search)
+
+        paginator = self.pagination_class()
+        page = paginator.paginate_queryset(queryset, request)
+        if page is not None:
+            serializer = CategorieSerializer(page, many=True)
+            return paginator.get_paginated_response(serializer.data)
+
+        serializer = CategorieSerializer(queryset, many=True)
+        return Response({"success": True, "results": serializer.data})
+
+    # POST /categories/
+    # ------------------------------------------------------------------
+    def create(self, request):
+        self.check_permissions(request)  # enforce pharmacist-only for writes
+        serializer = CategorieSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        validated = serializer.validated_data
+        categorie = self.service.create_category(
+            nom=validated["nom"],
+            description=validated.get("description"),
+        )
+        out = CategorieSerializer(categorie)
+        return Response(
+            {"success": True, "data": out.data},
+            status=status.HTTP_201_CREATED,
+        )
 
-    def destroy(self, request, *args, **kwargs):
-        """
-        Handle the deletion of a category with proper status codes.
-        """
-        instance = self.get_object()
-        self.perform_destroy(instance)
+    # GET /categories/{id}/
+    # ------------------------------------------------------------------
+    def retrieve(self, request, pk=None):
+        categorie = self.service.get_category(int(pk))
+        serializer = CategorieSerializer(categorie)
+        return Response({"success": True, "data": serializer.data})
+
+    # PUT /categories/{id}/
+    # ------------------------------------------------------------------
+    def update(self, request, pk=None):
+        self._require_pharmacist(request)
+        categorie = self.service.get_category(int(pk))
+        serializer = CategorieSerializer(categorie, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        validated = serializer.validated_data
+        updated = self.service.update_category(
+            pk=int(pk),
+            nom=validated.get("nom"),
+            description=validated.get("description"),
+        )
+        return Response({"success": True, "data": CategorieSerializer(updated).data})
+
+    # PATCH /categories/{id}/
+    # ------------------------------------------------------------------
+    def partial_update(self, request, pk=None):
+        self._require_pharmacist(request)
+        categorie = self.service.get_category(int(pk))
+        serializer = CategorieSerializer(categorie, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        validated = serializer.validated_data
+        updated = self.service.update_category(
+            pk=int(pk),
+            nom=validated.get("nom"),
+            description=validated.get("description"),
+        )
+        return Response({"success": True, "data": CategorieSerializer(updated).data})
+
+    # DELETE /categories/{id}/
+    # ------------------------------------------------------------------
+    def destroy(self, request, pk=None):
+        self._require_pharmacist(request)
+        self.service.delete_category(int(pk))
         return Response(status=status.HTTP_204_NO_CONTENT)
-    
+
+    # Helpers
+    # ------------------------------------------------------------------
+    def _require_pharmacist(self, request):
+        perm = IsPharmacist()
+        if not perm.has_permission(request, self):
+            from rest_framework.exceptions import PermissionDenied
+            raise PermissionDenied(perm.message)
+        
