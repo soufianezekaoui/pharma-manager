@@ -38,15 +38,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    "rest_framework",
-    "drf_spectacular",
-    "corsheaders",
-    "django_filters",
+    'resr_framework',
+    'drf_spectacular',
+    'corsheaders',
+    'django_filters',
 
-    "apps.medicaments",
-    "apps.ventes",
-    "apps.categories",
-    "apps.users",
+    'apps.medicaments',
+    'apps.ventes',
+    'apps.categories',
+    'apps.users',
 ]
 
 REST_FRAMEWORK = {
