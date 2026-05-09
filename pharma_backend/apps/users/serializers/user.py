@@ -4,7 +4,7 @@ Serializers for User registration, profile and listing.
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 
-from apps.users.models import User, UserRole
+from apps.users.models.user import User, UserRole
 
 
 class RegisterSerializer(serializers.ModelSerializer):

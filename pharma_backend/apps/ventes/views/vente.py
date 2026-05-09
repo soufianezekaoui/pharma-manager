@@ -12,8 +12,8 @@ from rest_framework.viewsets import ViewSet
 
 from apps.core.pagination import StandardPagination
 from apps.core.permissions import IsPharmacist
-from apps.ventes.filters import VenteFilter
-from apps.ventes.serializers import (
+from apps.ventes.views.filters import VenteFilter
+from apps.ventes.serializers.vente import (
     VenteCreateSerializer,
     VenteListSerializer,
     VenteSerializer,

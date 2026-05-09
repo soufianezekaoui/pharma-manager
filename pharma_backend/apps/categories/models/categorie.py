@@ -3,7 +3,6 @@ Categorie model — maps to the existing 'categories_categorie' table.
 """
 from django.db import models
  
- 
 class Categorie(models.Model):
     """
     Represents a medication category (e.g. Antibiotiques, Analgésiques).

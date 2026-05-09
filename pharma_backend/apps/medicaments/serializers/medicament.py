@@ -4,7 +4,7 @@ Serializers for the Medicament resource.
 from django.utils import timezone
 from rest_framework import serializers
 
-from apps.categories.serializers import CategorieMinimalSerializer
+from apps.categories.serializers.categorie import CategorieMinimalSerializer
 from apps.medicaments.models import Medicament
 
 

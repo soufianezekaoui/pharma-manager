@@ -8,8 +8,8 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
 
-from apps.categories.serializers import CategorieSerializer
-from apps.categories.services import CategorieService
+from apps.categories.serializers.categorie import CategorieSerializer
+from apps.categories.services.categorie import CategorieService
 from apps.core.pagination import StandardPagination
 from apps.core.permissions import IsPharmacist, IsPharmacistOrReadOnly
 

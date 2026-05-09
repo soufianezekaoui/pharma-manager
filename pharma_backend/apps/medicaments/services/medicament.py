@@ -9,7 +9,7 @@ from django.utils import timezone
 from rest_framework.exceptions import NotFound, ValidationError
 
 from apps.medicaments.models import Medicament
-from apps.medicaments.repositories import MedicamentRepository
+from apps.medicaments.repositories.medicament import MedicamentRepository
 
 logger = logging.getLogger(__name__)
 

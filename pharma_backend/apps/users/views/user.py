@@ -11,7 +11,7 @@ from rest_framework.viewsets import ViewSet
 
 from apps.core.pagination import StandardPagination
 from apps.core.permissions import IsPharmacist
-from apps.users.serializers import (
+from apps.users.serializers.user import (
     ChangePasswordSerializer,
     UserSerializer,
     UserUpdateSerializer,

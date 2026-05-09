@@ -5,7 +5,7 @@ from typing import Optional
 
 from django.db.models import QuerySet
 
-from apps.ventes.models import LigneVente, Vente
+from apps.ventes.models.vent import LigneVente, Vente
 
 
 class VenteRepository:

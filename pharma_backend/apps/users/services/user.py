@@ -4,7 +4,7 @@ Service layer for User management.
 from rest_framework.exceptions import NotFound, PermissionDenied, ValidationError
 
 from apps.users.models import User
-from apps.users.repositories import UserRepository
+from apps.users.repositories.user import UserRepository
 
 
 class UserService:

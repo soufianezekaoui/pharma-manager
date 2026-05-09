@@ -3,7 +3,7 @@ django-filter FilterSet for Vente.
 """
 import django_filters
 
-from apps.ventes.models import Vente, VenteStatut
+from apps.ventes.models.vent import Vente, VenteStatut
 
 
 class VenteFilter(django_filters.FilterSet):

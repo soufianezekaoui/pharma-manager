@@ -3,7 +3,7 @@ URL routes for the Medicament resource.
 """
 from django.urls import path
 
-from apps.medicaments.views import MedicamentViewSet
+from apps.medicaments.views.medicament import MedicamentViewSet
 
 medicament_list = MedicamentViewSet.as_view({"get": "list", "post": "create"})
 medicament_detail = MedicamentViewSet.as_view(

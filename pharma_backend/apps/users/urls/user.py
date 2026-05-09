@@ -3,7 +3,7 @@ User management URL routes (pharmacist admin).
 """
 from django.urls import path
 
-from apps.users.views import UserViewSet
+from apps.users.views.user import UserViewSet
 
 user_list = UserViewSet.as_view({"get": "list"})
 user_detail = UserViewSet.as_view(

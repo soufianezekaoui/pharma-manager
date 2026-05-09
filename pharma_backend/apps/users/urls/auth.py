@@ -4,7 +4,7 @@ Auth URL routes: register, login, refresh, logout, me.
 from django.urls import path
 from rest_framework_simplejwt.views import TokenRefreshView
 
-from apps.users.views import LoginView, LogoutView, MeView, RegisterView
+from apps.users.views.auth import LoginView, LogoutView, MeView, RegisterView
 
 urlpatterns = [
     path("auth/register/", RegisterView.as_view(), name="auth-register"),

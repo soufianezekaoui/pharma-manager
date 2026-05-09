@@ -1,0 +1,1 @@
+from apps.categories.repositories import CategorieRepository

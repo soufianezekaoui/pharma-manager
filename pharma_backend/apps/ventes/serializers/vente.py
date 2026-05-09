@@ -3,9 +3,9 @@ Serializers for Vente and LigneVente resources.
 """
 from rest_framework import serializers
 
-from apps.medicaments.serializers import MedicamentMinimalSerializer
-from apps.users.serializers import UserSerializer
-from apps.ventes.models import LigneVente, Vente, VenteStatut
+from apps.medicaments.serializers.medicament import MedicamentMinimalSerializer
+from apps.users.serializers.user import UserSerializer
+from apps.ventes.models.vent import LigneVente, Vente, VenteStatut
 
 
 # LigneVente

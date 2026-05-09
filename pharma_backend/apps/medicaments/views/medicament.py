@@ -12,12 +12,12 @@ from rest_framework.viewsets import ViewSet
 
 from apps.core.pagination import StandardPagination
 from apps.core.permissions import IsPharmacist, IsPharmacistOrReadOnly
-from apps.medicaments.filters import MedicamentFilter
-from apps.medicaments.serializers import (
+from apps.medicaments.views.filters import MedicamentFilter
+from apps.medicaments.serializers.medicament import (
     MedicamentSerializer,
     StockUpdateSerializer,
 )
-from apps.medicaments.services import MedicamentService
+from apps.medicaments.services.medicament import MedicamentService
 
 logger = logging.getLogger(__name__)
 

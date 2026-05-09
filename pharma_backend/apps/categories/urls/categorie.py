@@ -3,7 +3,7 @@ URL routes for the Categorie resource.
 """
 from django.urls import path
 
-from apps.categories.views import CategorieViewSet
+from apps.categories.views.categorie import CategorieViewSet
 
 categorie_list = CategorieViewSet.as_view(
     {"get": "list", "post": "create"}

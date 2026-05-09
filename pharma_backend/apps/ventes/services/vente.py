@@ -8,10 +8,10 @@ from typing import List
 from django.db import transaction
 from rest_framework.exceptions import NotFound, PermissionDenied, ValidationError
 
-from apps.medicaments.repositories import MedicamentRepository
-from apps.medicaments.services import MedicamentService
-from apps.ventes.models import Vente, VenteStatut
-from apps.ventes.repositories import VenteRepository
+from apps.medicaments.repositories.medicament import MedicamentRepository
+from apps.medicaments.services.medicament import MedicamentService
+from apps.ventes.models.vent import Vente, VenteStatut
+from apps.ventes.repositories.vente import VenteRepository
 
 logger = logging.getLogger(__name__)
 

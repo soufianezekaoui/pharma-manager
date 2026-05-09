@@ -7,7 +7,7 @@ from django.db.models import QuerySet
 from rest_framework.exceptions import NotFound, ValidationError
 
 from apps.categories.models import Categorie
-from apps.categories.repositories import CategorieRepository
+from apps.categories.repositories.categorie import CategorieRepository
 
 
 class CategorieService:

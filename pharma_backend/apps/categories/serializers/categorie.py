@@ -5,7 +5,6 @@ from rest_framework import serializers
 
 from apps.categories.models import Categorie
 
-
 class CategorieSerializer(serializers.ModelSerializer):
     """Full serializer — used for list, retrieve, create and update."""
 

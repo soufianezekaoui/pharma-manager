@@ -12,7 +12,7 @@ from rest_framework_simplejwt.exceptions import TokenError
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-from apps.users.serializers import RegisterSerializer, UserSerializer
+from apps.users.serializers.user import RegisterSerializer, UserSerializer
 
 logger = logging.getLogger(__name__)
 
