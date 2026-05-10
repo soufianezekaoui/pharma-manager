@@ -1,8 +1,8 @@
-import { Bell, Search, Menu } from 'lucide-react'
-import { useAuth } from '../../hooks/useAuth'
+import { Bell, Menu } from 'lucide-react';
+import { useAuth } from '../hooks/useAuth';
 
 export function Header({ title, subtitle, onMenuToggle }) {
-  const { user } = useAuth()
+  const { user } = useAuth();
 
   return (
     <header className="h-16 flex items-center justify-between px-6 bg-white/80 backdrop-blur-md border-b border-gray-100 sticky top-0 z-30">
@@ -28,5 +28,5 @@ export function Header({ title, subtitle, onMenuToggle }) {
         </div>
       </div>
     </header>
-  )
+  );
 }

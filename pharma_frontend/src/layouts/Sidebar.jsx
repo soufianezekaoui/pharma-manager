@@ -1,10 +1,10 @@
-import { NavLink, useNavigate } from 'react-router-dom'
-import { useAuth } from '../../hooks/useAuth'
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
 import {
   LayoutDashboard, Pill, ShoppingCart, Tags, Users,
   LogOut, ChevronRight, Activity, Cross,
-} from 'lucide-react'
-import toast from 'react-hot-toast'
+} from 'lucide-react';
+import toast from 'react-hot-toast';
 
 const pharmacistLinks = [
   { to: '/dashboard', icon: LayoutDashboard, label: 'Tableau de bord' },
@@ -12,29 +12,30 @@ const pharmacistLinks = [
   { to: '/categories', icon: Tags, label: 'Catégories' },
   { to: '/ventes', icon: ShoppingCart, label: 'Ventes' },
   { to: '/users', icon: Users, label: 'Utilisateurs' },
-]
+];
 
 const clientLinks = [
   { to: '/dashboard', icon: Activity, label: 'Mon espace' },
   { to: '/medicaments', icon: Pill, label: 'Catalogue' },
   { to: '/ventes', icon: ShoppingCart, label: 'Mes achats' },
-]
+];
 
 export function Sidebar() {
-  const { user, logout, isPharmacist } = useAuth()
-  const navigate = useNavigate()
-  const links = isPharmacist ? pharmacistLinks : clientLinks
+  const { user, logout, isPharmacist } = useAuth();
+  const navigate = useNavigate();
+  const links = isPharmacist ? pharmacistLinks : clientLinks;
 
   const handleLogout = async () => {
-    await logout()
-    toast.success('Déconnexion réussie.')
-    navigate('/login')
-  }
+    await logout();
+    toast.success('Déconnexion réussie.');
+    navigate('/login');
+  };
 
   return (
-    <aside className="fixed top-0 left-0 h-screen w-[260px] flex flex-col z-40"
-      style={{ background: 'linear-gradient(160deg, #0a817b 0%, #0d9e96 45%, #22bbb0 100%)' }}>
-
+    <aside
+      className="fixed top-0 left-0 h-screen w-[260px] flex flex-col z-40"
+      style={{ background: 'linear-gradient(160deg, #0a817b 0%, #0d9e96 45%, #22bbb0 100%)' }}
+    >
       {/* Logo */}
       <div className="px-6 py-6 border-b border-white/10">
         <div className="flex items-center gap-3">
@@ -56,7 +57,9 @@ export function Sidebar() {
           </div>
           <div className="min-w-0">
             <p className="text-white text-sm font-semibold truncate">{user?.username}</p>
-            <p className="text-teal-100/60 text-xs capitalize">{user?.role === 'pharmacist' ? 'Pharmacien' : 'Client'}</p>
+            <p className="text-teal-100/60 text-xs capitalize">
+              {user?.role === 'pharmacist' ? 'Pharmacien' : 'Client'}
+            </p>
           </div>
         </div>
       </div>
@@ -70,9 +73,7 @@ export function Sidebar() {
           <NavLink
             key={to}
             to={to}
-            className={({ isActive }) =>
-              `sidebar-link ${isActive ? 'active' : ''}`
-            }
+            className={({ isActive }) => `sidebar-link ${isActive ? 'active' : ''}`}
           >
             <Icon size={17} />
             <span className="flex-1">{label}</span>
@@ -92,5 +93,5 @@ export function Sidebar() {
         </button>
       </div>
     </aside>
-  )
+  );
 }
