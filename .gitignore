@@ -1,25 +1,43 @@
 # Python
 __pycache__/
 *.pyc
+*.py[cod]
+*.pyo
 
 # Virtual Environment
 pharma_backend/venv/
 venv/
+*.egg-info/
 
 # Django
-db.sqlite3
-*.log
-media/
+pharma_backend/staticfiles/
+pharma_backend/media/
+pharma_backend/.env
 
 # VS Code
 .vscode/
 
 # Environment variables
 .env
+.env.local
+.env.*.local
 
 # Node
-node_modules/
+pharma_frontend/node_modules/
+pharma_frontend/dist/
+pharma_frontend/.env
+
+# Docker
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
 
 # Build files
 dist/
 build/
+
+# Editor
+.vscode/
+.idea/
