@@ -68,17 +68,17 @@ pharma-manager/
 
 ## MCD
 
-![MCD](./pharma_frontend/puplic/MCD_phaManScreen.png)
+![MCD](./pharma_frontend/public/MCD_phaManScreen.png)
 
 ## MLD
 
-![MLD](./pharma_frontend/puplic/MLD_phaManScreen.png)
+![MLD](./pharma_frontend/public/MLD_phaManScreen.png)
 
 ---
 
 # Application Preview
 
-![Application](./pharma_frontend/puplic/login_phaManScr.png)
+![Application](./pharma_frontend/public/login_phaManScr.png)
 
 ---
 
