@@ -1,5 +1,5 @@
 """
-Medicament model — maps to the existing 'medicaments_medicament' table.
+Medicament model for pharmacy inventory management.
 """
 from django.db import models
 from django.utils import timezone
@@ -11,23 +11,29 @@ class Medicament(models.Model):
     """
     Represents a medication in the pharmacy inventory.
 
-    Business rules enforced at the service layer:
-    - stock_actuel must be >= 0.
-    - Expired medications cannot be sold.
-    - est_actif=False acts as a soft delete.
+    Attributes:
+        nom (str): Brand name of the medication.
+        dci (str): International Common Denomination.
+        categorie (Categorie): FK to medication category.
+        forme (str): Galenic form (tablet, syrup, etc.).
+        dosage (str): Dosage description (e.g. 500mg).
+        prix_achat (Decimal): Purchase price in MAD.
+        prix_vente (Decimal): Sale price in MAD.
+        stock_actuel (int): Current stock quantity.
+        stock_minimum (int): Minimum threshold for alerts.
+        date_expiration (date): Expiry date.
+        ordonnance_requise (bool): Whether prescription is required.
+        est_actif (bool): Soft delete flag — False means archived.
+        date_creation (datetime): Auto-set creation timestamp.
     """
 
     nom = models.CharField(max_length=150, verbose_name="Nom commercial")
     dci = models.CharField(
-        max_length=150,
-        blank=True,
-        null=True,
+        max_length=150, blank=True, null=True,
         verbose_name="Dénomination Commune Internationale",
     )
     forme = models.CharField(
-        max_length=50,
-        blank=True,
-        null=True,
+        max_length=50, blank=True, null=True,
         verbose_name="Forme galénique",
         help_text="Ex: comprimé, sirop, injection",
     )
@@ -53,11 +59,11 @@ class Medicament(models.Model):
         on_delete=models.PROTECT,
         null=True,
         blank=True,
+        related_name="medicaments",
         verbose_name="Catégorie",
     )
 
     class Meta:
-        db_table = "medicaments_medicament"
         verbose_name = "Médicament"
         verbose_name_plural = "Médicaments"
         ordering = ["nom"]

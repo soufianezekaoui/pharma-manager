@@ -1,6 +1,5 @@
 """
 Custom User model with role-based access.
-Maps to the existing 'users_user' table in PostgreSQL.
 """
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
@@ -42,21 +41,14 @@ class User(AbstractBaseUser, PermissionsMixin):
     """
 
     username = models.CharField(
-        max_length=100,
-        unique=True,
-        verbose_name="Nom d'utilisateur",
+        max_length=100, unique=True, verbose_name="Nom d'utilisateur",
     )
     email = models.EmailField(
-        max_length=150,
-        unique=True,
-        verbose_name="Adresse email",
+        max_length=150, unique=True, verbose_name="Adresse email",
     )
-    password = models.CharField(max_length=255, verbose_name="Mot de passe")
     role = models.CharField(
-        max_length=30,
-        choices=UserRole.choices,
-        default=UserRole.CLIENT,
-        verbose_name="Rôle",
+        max_length=30, choices=UserRole.choices,
+        default=UserRole.CLIENT, verbose_name="Rôle",
     )
     is_active = models.BooleanField(default=True, verbose_name="Actif")
     is_staff = models.BooleanField(default=False, verbose_name="Staff")
@@ -68,7 +60,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = ["email"]
 
     class Meta:
-        db_table = "users_user"
         verbose_name = "Utilisateur"
         verbose_name_plural = "Utilisateurs"
         ordering = ["username"]
@@ -83,4 +74,3 @@ class User(AbstractBaseUser, PermissionsMixin):
     @property
     def is_client(self) -> bool:
         return self.role == UserRole.CLIENT
-    

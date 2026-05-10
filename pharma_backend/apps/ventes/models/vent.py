@@ -1,6 +1,5 @@
 """
 Vente and LigneVente models.
-Map to pre-existing PostgreSQL tables: ventes_vente, ventes_lignevente.
 """
 import uuid
 
@@ -25,25 +24,18 @@ class Vente(models.Model):
     """
 
     reference = models.CharField(
-        max_length=100,
-        unique=True,
-        verbose_name="Référence",
+        max_length=100, unique=True, verbose_name="Référence",
     )
     date_vente = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name="Date de vente",
+        auto_now_add=True, verbose_name="Date de vente",
     )
     total_ttc = models.DecimalField(
-        max_digits=10,
-        decimal_places=2,
-        default=0,
+        max_digits=10, decimal_places=2, default=0,
         verbose_name="Total TTC (MAD)",
     )
     statut = models.CharField(
-        max_length=30,
-        choices=VenteStatut.choices,
-        default=VenteStatut.EN_ATTENTE,
-        verbose_name="Statut",
+        max_length=30, choices=VenteStatut.choices,
+        default=VenteStatut.EN_ATTENTE, verbose_name="Statut",
     )
     notes = models.TextField(blank=True, null=True, verbose_name="Notes")
     created_by = models.ForeignKey(
@@ -54,7 +46,6 @@ class Vente(models.Model):
     )
 
     class Meta:
-        db_table = "ventes_vente"
         verbose_name = "Vente"
         verbose_name_plural = "Ventes"
         ordering = ["-date_vente"]
@@ -75,13 +66,12 @@ class LigneVente(models.Model):
     A single line item within a Vente.
 
     sous_total is computed automatically: quantite × prix_unitaire.
+    prix_unitaire is a snapshot of the price at time of sale.
     """
 
     vente = models.ForeignKey(
-        Vente,
-        on_delete=models.CASCADE,
-        related_name="lignes",
-        verbose_name="Vente",
+        Vente, on_delete=models.CASCADE,
+        related_name="lignes", verbose_name="Vente",
     )
     medicament = models.ForeignKey(
         "medicaments.Medicament",
@@ -91,18 +81,15 @@ class LigneVente(models.Model):
     )
     quantite = models.IntegerField(verbose_name="Quantité")
     prix_unitaire = models.DecimalField(
-        max_digits=10,
-        decimal_places=2,
+        max_digits=10, decimal_places=2,
         verbose_name="Prix unitaire (MAD)",
     )
     sous_total = models.DecimalField(
-        max_digits=10,
-        decimal_places=2,
+        max_digits=10, decimal_places=2,
         verbose_name="Sous-total (MAD)",
     )
 
     class Meta:
-        db_table = "ventes_lignevente"
         verbose_name = "Ligne de vente"
         verbose_name_plural = "Lignes de vente"
         ordering = ["id"]

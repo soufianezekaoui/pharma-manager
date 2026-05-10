@@ -1,5 +1,5 @@
 """
-Authentication views: register, login, token refresh, logout.
+Authentication views: register, login, token refresh, logout, me.
 """
 import logging
 
@@ -134,8 +134,6 @@ class MeView(APIView):
         )
 
 
-# Helpers
-# ---------------------------------------------------------------------------
 def _generate_tokens(user) -> dict:
     refresh = RefreshToken.for_user(user)
     return {

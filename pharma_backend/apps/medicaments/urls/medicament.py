@@ -10,6 +10,7 @@ medicament_detail = MedicamentViewSet.as_view(
     {"get": "retrieve", "put": "update", "patch": "partial_update", "delete": "destroy"}
 )
 medicament_restock = MedicamentViewSet.as_view({"post": "restock"})
+# Specific paths MUST come before the <int:pk>/ pattern
 medicament_alertes = MedicamentViewSet.as_view({"get": "alertes_stock"})
 medicament_expires = MedicamentViewSet.as_view({"get": "expires"})
 

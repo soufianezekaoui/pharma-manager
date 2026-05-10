@@ -1,1 +1,3 @@
-from apps.categories.repositories import CategorieRepository
+from .categorie import CategorieRepository
+
+__all__ = ["CategorieRepository"]

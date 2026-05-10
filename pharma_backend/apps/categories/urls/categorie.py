@@ -5,9 +5,7 @@ from django.urls import path
 
 from apps.categories.views.categorie import CategorieViewSet
 
-categorie_list = CategorieViewSet.as_view(
-    {"get": "list", "post": "create"}
-)
+categorie_list = CategorieViewSet.as_view({"get": "list", "post": "create"})
 categorie_detail = CategorieViewSet.as_view(
     {"get": "retrieve", "put": "update", "patch": "partial_update", "delete": "destroy"}
 )

@@ -19,6 +19,7 @@ ALLOWED_HOSTS = config(
 # Application definition
 # ---------------------------------------------------------------------------
 DJANGO_APPS = [
+    "django.contrib.admin",
     "django.contrib.contenttypes",
     "django.contrib.auth",
     "django.contrib.sessions",

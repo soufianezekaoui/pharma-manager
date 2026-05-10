@@ -5,11 +5,12 @@ from rest_framework import serializers
 
 from apps.categories.models import Categorie
 
+
 class CategorieSerializer(serializers.ModelSerializer):
     """Full serializer — used for list, retrieve, create and update."""
 
     medicaments_count = serializers.SerializerMethodField(
-        help_text="Number of medications in this category."
+        help_text="Number of active medications in this category."
     )
 
     class Meta:
@@ -19,13 +20,12 @@ class CategorieSerializer(serializers.ModelSerializer):
 
     def get_medicaments_count(self, obj) -> int:
         """Return the number of active medications in this category."""
-        return obj.medicament_set.filter(est_actif=True).count()
+        return obj.medicaments.filter(est_actif=True).count()
 
     def validate_nom(self, value: str) -> str:
-        """Ensure the name is title-cased and unique (case-insensitive)."""
+        """Ensure the name is unique (case-insensitive)."""
         value = value.strip()
         qs = Categorie.objects.filter(nom__iexact=value)
-        # Exclude the current instance when updating
         if self.instance:
             qs = qs.exclude(pk=self.instance.pk)
         if qs.exists():
