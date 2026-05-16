@@ -146,6 +146,6 @@ Built for the SMARTHOLOL for technical assessment
 
 ### ⭐ Star this repo if you found it helpful!
 
-**Made with ❤️ and Python**
+**Made with ❤️ and Django/React**
 
 </div>
