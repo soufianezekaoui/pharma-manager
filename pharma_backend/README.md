@@ -20,10 +20,10 @@ pharma_backend/
 │
 ├── apps/
 │   ├── categories/
+|   ├── core/
 │   ├── medicaments/
 │   ├── ventes/
 │   └──  users/
-├── core/
 │
 ├── config/
 │   ├── settings/
